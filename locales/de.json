@@ -2,8 +2,10 @@
     "info": {
         "apple": "Apfel",
         "orange": "Orange",
+        "tomato": "Tomate",
         "blip_farm_apple": "Obstgarten Apfel",
-        "blip_farm_orange": "Obstgarten Orange"
+        "blip_farm_orange": "Obstgarten Orange",
+        "blip_farm_tomato": "Obstgarten Tomate"
     },
     "notifications": {
         "tree_recently_picked": "Dieser Baum wurde kürzlich gepflückt. Warte noch etwas.",

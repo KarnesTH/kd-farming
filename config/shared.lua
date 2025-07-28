@@ -4,6 +4,7 @@ return {
 
     -- Farming locations
     locations = {
+        -- Apple
         {
             name = 'sandy_shores_orchard',
             coords = vec3(2336.42, 4990.02, 41.98),
@@ -57,6 +58,56 @@ return {
                 vec3(2389.987, 4992.423, 44.16648),
             }
         },
+        -- Tomatoes
+        {
+            name = 'sandy_shores_orchard_2',
+            coords = vec3(1985.01, 4828.31, 43.74),
+            label = 'Sandy Shores Obstgarten',
+            blip = {
+                label = locale('info.blip_farm_tomato'),
+                sprite = 285,
+                color = 1,
+                scale = 0.8,
+            },
+            zone = {
+                coords = vec3(1985.09, 4828.06, 43.72),
+                size = vec3(40.0, 50.0, 10.0),
+                rotation = 312.96
+            },
+            pickable = {
+                tomato = {
+                    name = 'tomato',
+                    label = locale('info.tomato'),
+                    item = 'tomato',
+                    prop = 'prop_veg_crop_tomato',
+                    respawnTime = 30,
+                    yield = {min = 1, max = 3}
+                }
+            },
+            pickableLocations = {
+                vec3(1989.8, 4848.35, 44.03),
+                vec3(1992.64, 4845.57, 43.97),
+                vec3(2003.79, 4833.87, 43.23),
+                vec3(2007.17, 4830.42, 42.92),
+                vec3(1980.55, 4841.45, 43.95),
+                vec3(1984.36, 4837.87, 43.98),
+                vec3(1998.15, 4823.28, 43.16),
+                vec3(2001.58, 4819.88, 42.85),
+                vec3(1975.64, 4836.48, 44.09),
+                vec3(1978.97, 4833.14, 44.04),
+                vec3(1993.4, 4818.35, 43.26),
+                vec3(1996.53, 4815.24, 42.9),
+                vec3(1970.28, 4832.02, 44.0),
+                vec3(1973.85, 4828.43, 43.83),
+                vec3(1988.31, 4813.58, 43.18),
+                vec3(1991.69, 4810.19, 42.83),
+                vec3(1965.56, 4827.05, 43.93),
+                vec3(1969.15, 4823.46, 43.73),
+                vec3(1982.85, 4808.94, 42.99),
+                vec3(1986.54, 4805.35, 42.76),
+            }
+        },
+        -- Orange
         {
             name = 'paleto_orchard',
             coords = vec3(353.97, 6517.51, 28.3),
@@ -107,20 +158,6 @@ return {
                 vec3(329.4915, 6531.097, 27.49841),
                 vec3(321.785, 6531.189, 28.13968),
             }
-        }
-    },
-
-    -- Item definitions
-    items = {
-        apple = {
-            name = 'apple',
-            label = 'Apfel',
-            item = 'apple'
         },
-        orange = {
-            name = 'orange',
-            label = 'Orange',
-            item = 'orange'
-        }
-    }
+    },
 }
