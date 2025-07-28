@@ -3,25 +3,36 @@
         "apple": "Apfel",
         "orange": "Orange",
         "tomato": "Tomate",
+        "lettuce": "Salat",
         "blip_farm_apple": "Obstgarten Apfel",
         "blip_farm_orange": "Obstgarten Orange",
-        "blip_farm_tomato": "Obstgarten Tomate"
+        "blip_farm_tomato": "Obstgarten Tomate",
+        "blip_farm_lettuce": "Salat Farm"
     },
     "notifications": {
         "tree_recently_picked": "Dieser Baum wurde kürzlich gepflückt. Warte noch etwas.",
+        "item_recently_collected": "Dieser Salat wurde kürzlich geerntet. Warte noch etwas.",
         "successfully_picked": "Du hast {yield}x {item} gepflückt!",
+        "successfully_collected": "Du hast {yield}x {item} geerntet!",
         "cancelled": "Pflücken abgebrochen.",
+        "collection_cancelled": "Ernten abgebrochen.",
         "tree_ready": "Der Baum ist wieder bereit zum Pflücken.",
+        "item_ready": "Der Salat ist wieder bereit zum Ernten.",
         "inventory_full": "Du kannst nicht mehr tragen!"
     },
     "ui": {
         "pick_tree": "[E] Pflücke {item}",
+        "collect_item": "[E] Ernte {item}",
         "tree_recently_picked_ui": "Baum kürzlich gepflückt",
-        "pick_label": "Pflücke {item}"
+        "item_recently_collected_ui": "Salat kürzlich geerntet",
+        "pick_label": "Pflücke {item}",
+        "collect_label": "Ernte {item}"
     },
     "titles": {
         "tree": "Baum",
+        "item": "Salat",
         "successfully_picked": "Erfolgreich gepflückt",
+        "successfully_collected": "Erfolgreich geerntet",
         "cancelled": "Abgebrochen",
         "inventory_full": "Inventar voll"
     }

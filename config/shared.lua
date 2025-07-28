@@ -4,6 +4,9 @@ return {
 
     -- Farming locations
     locations = {
+        --------------------------------------
+        --------  Pickable locations ---------
+        --------------------------------------
         -- Apple
         {
             name = 'sandy_shores_orchard',
@@ -157,6 +160,37 @@ return {
                 vec3(338.4008, 6531.294, 27.44704),
                 vec3(329.4915, 6531.097, 27.49841),
                 vec3(321.785, 6531.189, 28.13968),
+            }
+        },
+        --------------------------------------
+        --------  Collectable locations ------
+        --------------------------------------
+        -- Lettuce
+        {
+            name = 'grapeseed_lettuce_farm',
+            coords = vec3(2545.41, 4809.12, 33.55),
+            label = 'Grapeseed Salat Farm',
+            blip = {
+                label = locale('info.blip_farm_lettuce'),
+                sprite = 285,
+                color = 2,
+                scale = 0.8,
+            },
+            zone = {
+                coords = vec3(2545.41, 4809.12, 33.55),
+                size = vec3(30.0, 60.0, 10.0),
+                rotation = 226.15
+            },
+            collectable = {
+                lettuce = {
+                    name = 'lettuce',
+                    label = locale('info.lettuce'),
+                    item = 'lettuce',
+                    prop = 'prop_veg_crop_03_cab',
+                    respawnTime = 45,
+                    yield = {min = 1, max = 2},
+                    maxSpawns = 15
+                }
             }
         },
     },
