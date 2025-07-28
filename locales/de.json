@@ -1,0 +1,26 @@
+{
+    "info": {
+        "apple": "Apfel",
+        "orange": "Orange",
+        "blip_farm_apple": "Obstgarten Apfel",
+        "blip_farm_orange": "Obstgarten Orange"
+    },
+    "notifications": {
+        "tree_recently_picked": "Dieser Baum wurde kürzlich gepflückt. Warte noch etwas.",
+        "successfully_picked": "Du hast {yield}x {item} gepflückt!",
+        "cancelled": "Pflücken abgebrochen.",
+        "tree_ready": "Der Baum ist wieder bereit zum Pflücken.",
+        "inventory_full": "Du kannst nicht mehr tragen!"
+    },
+    "ui": {
+        "pick_tree": "[E] Pflücke {item}",
+        "tree_recently_picked_ui": "Baum kürzlich gepflückt",
+        "pick_label": "Pflücke {item}"
+    },
+    "titles": {
+        "tree": "Baum",
+        "successfully_picked": "Erfolgreich gepflückt",
+        "cancelled": "Abgebrochen",
+        "inventory_full": "Inventar voll"
+    }
+}
