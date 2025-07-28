@@ -1,6 +1,6 @@
 return {
     useTarget = true,
-    debugPoly = true,
+    debugPoly = false,
 
     -- Farming locations
     locations = {

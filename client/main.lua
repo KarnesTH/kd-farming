@@ -141,98 +141,103 @@ end
 
 local function spawnCollectableItems(location, collectableType, collectableConfig)
     if location.collectable and collectableConfig.maxSpawns then
+        local positions = {}
         for i = 1, collectableConfig.maxSpawns do
-            local itemCoords = generateRandomPositionInZone(
+            positions[i] = generateRandomPositionInZone(
                 location.zone.coords,
                 location.zone.size,
                 location.zone.rotation
             )
-            
+        end
+        
+        local propHash = GetHashKey(collectableConfig.prop)
+        RequestModel(propHash)
+        
+        while not HasModelLoaded(propHash) do
+            Wait(1)
+        end
+        
+        for i = 1, collectableConfig.maxSpawns do
+            local itemCoords = positions[i]
             local itemId = location.name .. '_' .. collectableType .. '_' .. i
             
-            local propHash = GetHashKey(collectableConfig.prop)
-            RequestModel(propHash)
-            
-            while not HasModelLoaded(propHash) do
-                Wait(1)
-            end
-            
             local prop = CreateObject(propHash, itemCoords.x, itemCoords.y, itemCoords.z, false, false, false)
-             PlaceObjectOnGroundProperly(prop)
-             SetEntityAsMissionEntity(prop, true, true)
-             FreezeEntityPosition(prop, true)
-             SetModelAsNoLongerNeeded(propHash)
-             
-             local finalCoords = GetEntityCoords(prop)
-             spawnedProps[itemId] = {
-                 prop = prop,
-                 coords = finalCoords,
-                 point = nil
-             }
-             
-             if config.useTarget then
-                 exports.ox_target:addBoxZone({
-                     coords = finalCoords,
-                     size = vec3(1.0, 1.0, 2.0),
-                     rotation = 0,
-                     debug = config.debugPoly,
-                     options = {
-                         {
-                             name = 'kd_farming_' .. itemId,
-                             icon = "fas fa-hand-paper",
-                             label = locale('ui.collect_label'):gsub('{item}', collectableConfig.label),
-                             onSelect = function()
-                                 if not isItemCollected(itemId, collectableConfig.respawnTime) then
-                                     TriggerEvent("kd-farming:collectItem", {type = collectableType, config = collectableConfig, itemId = itemId})
-                                 else
-                                     lib.notify({
-                                         title = locale('titles.item'),
-                                         description = locale('notifications.item_recently_collected'),
-                                         type = 'error'
-                                     })
-                                 end
-                             end,
-                             canInteract = function()
-                                 return not isItemCollected(itemId, collectableConfig.respawnTime)
-                             end
-                         }
-                     }
-                 })
-             else
-                 local point = lib.points.new({
-                     coords = finalCoords,
-                     distance = 2.0,
-                                           onEnter = function()
-                          if not isItemCollected(itemId, collectableConfig.respawnTime) then
-                              lib.showTextUI(locale('ui.collect_item'):gsub('{item}', collectableConfig.label), {
-                                  position = "right-center"
-                              })
-                          else
-                              lib.showTextUI(locale('ui.item_recently_collected_ui'), {
-                                  position = "right-center"
-                              })
-                          end
-                      end,
-                     onExit = function()
-                         lib.hideTextUI()
-                     end,
-                     nearby = function()
-                         if IsControlJustReleased(0, 38) then
-                             if not isItemCollected(itemId, collectableConfig.respawnTime) then
-                                 TriggerEvent("kd-farming:collectItem", {type = collectableType, config = collectableConfig, itemId = itemId})
-                             else
-                                 lib.notify({
-                                     title = locale('titles.item'),
-                                     description = locale('notifications.item_recently_collected'),
-                                     type = 'error'
-                                 })
-                             end
-                         end
-                     end
-                 })
-                 spawnedProps[itemId].point = point
-             end
+            PlaceObjectOnGroundProperly(prop)
+            SetEntityAsMissionEntity(prop, true, true)
+            FreezeEntityPosition(prop, true)
+            
+            local finalCoords = GetEntityCoords(prop)
+            spawnedProps[itemId] = {
+                prop = prop,
+                coords = finalCoords,
+                point = nil
+            }
+            
+            if config.useTarget then
+                exports.ox_target:addBoxZone({
+                    coords = finalCoords,
+                    size = vec3(1.0, 1.0, 2.0),
+                    rotation = 0,
+                    debug = config.debugPoly,
+                    options = {
+                        {
+                            name = 'kd_farming_' .. itemId,
+                            icon = "fas fa-hand-paper",
+                            label = locale('ui.collect_label'):gsub('{item}', collectableConfig.label),
+                            onSelect = function()
+                                if not isItemCollected(itemId, collectableConfig.respawnTime) then
+                                    TriggerEvent("kd-farming:collectItem", {type = collectableType, config = collectableConfig, itemId = itemId})
+                                else
+                                    lib.notify({
+                                        title = locale('titles.item'),
+                                        description = locale('notifications.item_recently_collected'),
+                                        type = 'error'
+                                    })
+                                end
+                            end,
+                            canInteract = function()
+                                return not isItemCollected(itemId, collectableConfig.respawnTime)
+                            end
+                        }
+                    }
+                })
+            else
+                local point = lib.points.new({
+                    coords = finalCoords,
+                    distance = 2.0,
+                    onEnter = function()
+                        if not isItemCollected(itemId, collectableConfig.respawnTime) then
+                            lib.showTextUI(locale('ui.collect_item'):gsub('{item}', collectableConfig.label), {
+                                position = "right-center"
+                            })
+                        else
+                            lib.showTextUI(locale('ui.item_recently_collected_ui'), {
+                                position = "right-center"
+                            })
+                        end
+                    end,
+                    onExit = function()
+                        lib.hideTextUI()
+                    end,
+                    nearby = function()
+                        if IsControlJustReleased(0, 38) then
+                            if not isItemCollected(itemId, collectableConfig.respawnTime) then
+                                TriggerEvent("kd-farming:collectItem", {type = collectableType, config = collectableConfig, itemId = itemId})
+                            else
+                                lib.notify({
+                                    title = locale('titles.item'),
+                                    description = locale('notifications.item_recently_collected'),
+                                    type = 'error'
+                                })
+                            end
+                        end
+                    end
+                })
+                spawnedProps[itemId].point = point
+            end
         end
+        
+        SetModelAsNoLongerNeeded(propHash)
     end
 end
 
