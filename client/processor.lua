@@ -17,7 +17,6 @@ local function processItem(recipe, recipeIndex)
     local playerCoords = GetEntityCoords(playerPed)
     local pedCoords = GetEntityCoords(processingPed)
     
-    -- Check distance
     if #(playerCoords - pedCoords) > config.settings.maxProcessingDistance then
         lib.notify({
             title = locale('titles.processing_error'),
@@ -27,7 +26,6 @@ local function processItem(recipe, recipeIndex)
         return
     end
     
-    -- Check if player has required items
     local hasItems = lib.callback.await('kd-farming:checkIngredients', false, recipe.ingredients)
     
     if not hasItems then
@@ -39,7 +37,6 @@ local function processItem(recipe, recipeIndex)
         return
     end
     
-    -- Start processing animation
     TaskStartScenarioInPlace(playerPed, config.settings.processingAnimation, 0, false)
     
     if lib.progressCircle({
@@ -53,7 +50,6 @@ local function processItem(recipe, recipeIndex)
             combat = true
         },
     }) then
-        -- Process the item
         local success = lib.callback.await('kd-farming:processItem', false, recipeIndex)
         
         if success then
@@ -85,7 +81,6 @@ local function openProcessingMenu()
     local pedConfig = config.processingPed
     local options = {}
     
-    -- Build menu options from recipes
     for i, recipe in ipairs(pedConfig.recipes) do
         local ingredientsText = ''
         local canCraft = true
@@ -93,7 +88,6 @@ local function openProcessingMenu()
         for item, amount in pairs(recipe.ingredients) do
             local itemLabel = locale('info.' .. item) or item
             
-            -- Check if player has enough of this ingredient
             local hasItem = lib.callback.await('kd-farming:checkSingleIngredient', false, item, amount)
             local statusIcon = hasItem and '✔️' or '✖️​'
             
@@ -101,8 +95,7 @@ local function openProcessingMenu()
                 canCraft = false
             end
             
-            -- Add icon for each ingredient
-            local itemIcon = '🍊' -- Default
+            local itemIcon = '🍊'
             if item == 'orange' then
                 itemIcon = '🍊'
             elseif item == 'apple' then
@@ -118,8 +111,7 @@ local function openProcessingMenu()
             ingredientsText = ingredientsText .. itemIcon .. ' ' .. amount .. 'x ' .. itemLabel .. ' ' .. statusIcon .. ' '
         end
         
-        -- Use default icon for menu items
-        local icon = 'fas fa-cogs' -- Default processing icon
+        local icon = 'fas fa-cogs'
         
         table.insert(options, {
             title = recipe.label,
@@ -165,7 +157,6 @@ local function createProcessingPed()
     SetEntityInvincible(processingPed, true)
     SetBlockingOfNonTemporaryEvents(processingPed, true)
     
-    -- Set ped scenario
     if config.settings.pedScenario then
         TaskStartScenarioInPlace(processingPed, config.settings.pedScenario, 0, true)
     end
@@ -178,12 +169,11 @@ local function createProcessingZone()
     local pedConfig = config.processingPed
     
     if config.settings.useTarget then
-        -- Create target zone for the ped
         exports.ox_target:addLocalEntity(processingPed, {
             {
                 name = 'farming_processor',
                 icon = 'fas fa-cogs',
-                label = 'Mit Verarbeiter sprechen',
+                label = locale('processor.processing'),
                 distance = config.settings.interactionDistance,
                 onSelect = function()
                     openProcessingMenu()
@@ -191,12 +181,11 @@ local function createProcessingZone()
             }
         })
     else
-        -- Create lib.points for interaction
         local point = lib.points.new({
             coords = pedConfig.coords,
             distance = config.settings.interactionDistance,
             onEnter = function()
-                lib.showTextUI('[E] Mit Verarbeiter sprechen', {
+                lib.showTextUI(locale('ui.processor_label'), {
                     position = "right-center"
                 })
             end,

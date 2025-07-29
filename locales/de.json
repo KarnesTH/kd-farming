@@ -28,7 +28,8 @@
         "tree_recently_picked_ui": "Baum kürzlich gepflückt",
         "item_recently_collected_ui": "Salat kürzlich geerntet",
         "pick_label": "Pflücke {item}",
-        "collect_label": "Ernte {item}"
+        "collect_label": "Ernte {item}",
+        "processor_label": "[E] Mit Verarbeiter sprechen"
     },
     "titles": {
         "tree": "Baum",
@@ -50,6 +51,7 @@
         "not_enough_ingredients": "Du hast nicht genügend Zutaten",
         "processing_failed": "Verarbeitung fehlgeschlagen",
         "processing_cancelled": "Verarbeitung abgebrochen",
-        "processing_success": "Du hast {item} hergestellt"
+        "processing_success": "Du hast {item} hergestellt",
+        "processing": "Verarbeiter"
     }
 }

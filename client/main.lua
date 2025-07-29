@@ -147,14 +147,12 @@ end)
 -- Resource cleanup
 AddEventHandler('onResourceStop', function(resourceName)
     if GetCurrentResourceName() == resourceName then
-        -- Cleanup blips
         for _, blip in pairs(blips) do
             if DoesBlipExist(blip) then
                 RemoveBlip(blip)
             end
         end
         
-        -- Cleanup processor
         processor.cleanupProcessor()
     end
 end)

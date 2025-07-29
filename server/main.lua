@@ -1,5 +1,6 @@
 local config = require 'config.shared'
 
+-- Give fruit to player
 RegisterNetEvent('kd-farming:giveFruit', function(itemName, amount)
     local source = source
     

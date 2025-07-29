@@ -42,7 +42,6 @@ lib.callback.register('kd-farming:processItem', function(source, recipeIndex)
         return false
     end
     
-    -- Check ingredients again (in case inventory changed)
     for item, amount in pairs(recipe.ingredients) do
         local itemCount = exports.ox_inventory:GetItemCount(player, item)
         if itemCount < amount then
@@ -50,7 +49,6 @@ lib.callback.register('kd-farming:processItem', function(source, recipeIndex)
         end
     end
     
-    -- Remove ingredients
     for item, amount in pairs(recipe.ingredients) do
         local removed = exports.ox_inventory:RemoveItem(player, item, amount)
         if not removed then
@@ -58,10 +56,8 @@ lib.callback.register('kd-farming:processItem', function(source, recipeIndex)
         end
     end
     
-    -- Add processed item
     local added = exports.ox_inventory:AddItem(player, recipe.name, recipe.count, recipe.metadata)
     if not added then
-        -- If adding fails, try to give back ingredients (this is a fallback)
         for item, amount in pairs(recipe.ingredients) do
             exports.ox_inventory:AddItem(player, item, amount)
         end

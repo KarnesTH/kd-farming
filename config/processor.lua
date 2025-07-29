@@ -51,7 +51,7 @@ return {
     
     -- Global processor settings
     settings = {
-        useTarget = true,
+        useTarget = false,
         debugPoly = false,
         processingAnimation = 'WORLD_HUMAN_CLIPBOARD', -- Animation during processing
         showProgressBar = true,

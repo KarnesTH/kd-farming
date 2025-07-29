@@ -320,14 +320,12 @@ local function createLocationZone(location)
             end
         })
         
-        -- Always create pickable targets (trees) as they are at fixed locations
         if location.pickable then
             for pickableType, pickableConfig in pairs(location.pickable) do
                 createTargetsForTrees(location, pickableType, pickableConfig)
             end
         end
         
-        -- Spawn collectable items immediately if spawnOnZoneEnter is disabled
         if not config.spawnOnZoneEnter and location.collectable then
             for collectableType, collectableConfig in pairs(location.collectable) do
                 spawnCollectableItems(location, collectableType, collectableConfig)
