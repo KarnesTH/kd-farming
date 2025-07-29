@@ -1,9 +1,9 @@
 return {
     useTarget = true,
-    debugPoly = true,
-    cleanupOnExit = false, -- Set to true if you want props to be removed when leaving the zone
-    spawnOnZoneEnter = true, -- Set to false if you want to spawn everything on resource start
-    minSpawnDistance = 100.0, -- Minimum distance a player must be to spawn props
+    debugPoly = false,
+    cleanupOnExit = false,                -- Set to true if you want props to be removed when leaving the zone
+    spawnOnZoneEnter = true,              -- Set to false if you want to spawn everything on resource start
+    minSpawnDistance = 200.0,             -- Minimum distance a player must be to spawn props
 
     -- Farming locations
     locations = {

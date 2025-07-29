@@ -36,6 +36,20 @@
         "successfully_picked": "Erfolgreich gepflückt",
         "successfully_collected": "Erfolgreich geerntet",
         "cancelled": "Abgebrochen",
-        "inventory_full": "Inventar voll"
+        "inventory_full": "Inventar voll",
+        "processing_success": "Verarbeitung erfolgreich",
+        "processing_error": "Verarbeitung fehlgeschlagen",
+        "processing_cancelled": "Verarbeitung abgebrochen"
+    },
+    "processor": {
+        "menu_title": "Farming Verarbeiter",
+        "cancel": "Abbrechen",
+        "cancel_description": "Menü schließen",
+        "processing_label": "Verarbeite {item}",
+        "too_far": "Du bist zu weit weg vom Verarbeiter",
+        "not_enough_ingredients": "Du hast nicht genügend Zutaten",
+        "processing_failed": "Verarbeitung fehlgeschlagen",
+        "processing_cancelled": "Verarbeitung abgebrochen",
+        "processing_success": "Du hast {item} hergestellt"
     }
 }

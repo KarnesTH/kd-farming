@@ -10,14 +10,18 @@ ox_lib 'locale'
 shared_scripts {
     '@ox_lib/init.lua',
     'config/shared.lua',
+    'config/processor.lua',
 }
 
 client_scripts {
     '@qbx_core/modules/playerdata.lua',
+    'client/farming.lua',
+    'client/processor.lua',
     'client/main.lua',
 }
 
 server_scripts {
+    'server/processor.lua',
     'server/main.lua',
 }
 
