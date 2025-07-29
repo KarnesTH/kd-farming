@@ -6,6 +6,8 @@ local progressBar = lib.progressCircle
 local pickedTrees = {}
 local spawnedItems = {}
 local spawnedProps = {}
+local targetZones = {}
+local spawnedZones = {}
 
 local function createBlip(location) 
     local blip = AddBlipForCoord(location.coords.x, location.coords.y, location.coords.z)
@@ -67,6 +69,19 @@ local function generateRandomPositionInZone(zoneCoords, zoneSize, zoneRotation)
         zoneCoords.y + rotatedY,
         zoneCoords.z
     )
+end
+
+local function isPlayerNearby(coords, distance)
+    local players = GetActivePlayers()
+    for _, player in pairs(players) do
+        local playerPed = GetPlayerPed(player)
+        local playerCoords = GetEntityCoords(playerPed)
+        local dist = #(coords - playerCoords)
+        if dist <= distance then
+            return true
+        end
+    end
+    return false
 end
 
 local function createTargetsForTrees(location, pickableType, pickableConfig)
@@ -140,6 +155,10 @@ local function createTargetsForTrees(location, pickableType, pickableConfig)
 end
 
 local function spawnCollectableItems(location, collectableType, collectableConfig)
+    if not isPlayerNearby(location.zone.coords, config.minSpawnDistance) then
+        return
+    end
+    
     if location.collectable and collectableConfig.maxSpawns then
         local positions = {}
         for i = 1, collectableConfig.maxSpawns do
@@ -161,83 +180,130 @@ local function spawnCollectableItems(location, collectableType, collectableConfi
             local itemCoords = positions[i]
             local itemId = location.name .. '_' .. collectableType .. '_' .. i
             
-            local prop = CreateObject(propHash, itemCoords.x, itemCoords.y, itemCoords.z, false, false, false)
-            PlaceObjectOnGroundProperly(prop)
-            SetEntityAsMissionEntity(prop, true, true)
-            FreezeEntityPosition(prop, true)
+            local groundZ = 0.0
+            local foundGround, groundHeight = GetGroundZFor_3dCoord(itemCoords.x, itemCoords.y, itemCoords.z + 10.0, groundZ, false)
             
-            local finalCoords = GetEntityCoords(prop)
-            spawnedProps[itemId] = {
-                prop = prop,
-                coords = finalCoords,
-                point = nil
-            }
-            
-            if config.useTarget then
-                exports.ox_target:addBoxZone({
-                    coords = finalCoords,
-                    size = vec3(1.0, 1.0, 2.0),
-                    rotation = 0,
-                    debug = config.debugPoly,
-                    options = {
-                        {
-                            name = 'kd_farming_' .. itemId,
-                            icon = "fas fa-hand-paper",
-                            label = locale('ui.collect_label'):gsub('{item}', collectableConfig.label),
-                            onSelect = function()
+            if foundGround then
+                local heightOffset = collectableConfig.heightOffset or 0.0
+                
+                local spawnZ = groundHeight + heightOffset
+                local prop = CreateObject(propHash, itemCoords.x, itemCoords.y, spawnZ, false, false, false)
+                
+                if prop and prop ~= 0 then
+                    PlaceObjectOnGroundProperly(prop)
+                    
+                    local currentCoords = GetEntityCoords(prop)
+                    local finalZ = currentCoords.z
+                    
+                    if collectableConfig.prop == 'prop_plant_paradise_b' and collectableConfig.heightOffset then
+                        finalZ = finalZ + (collectableConfig.heightOffset * 0.5)
+                        SetEntityCoords(prop, currentCoords.x, currentCoords.y, finalZ, false, false, false, true)
+                    end
+                    
+                    SetEntityAsMissionEntity(prop, true, true)
+                    FreezeEntityPosition(prop, true)
+                    
+                    local finalCoords = GetEntityCoords(prop)
+                    spawnedProps[itemId] = {
+                        prop = prop,
+                        coords = finalCoords,
+                        point = nil
+                    }
+                    
+                    if config.useTarget then
+                        local boxZone = exports.ox_target:addBoxZone({
+                            coords = finalCoords,
+                            size = vec3(1.5, 1.5, 2.5),
+                            rotation = 0,
+                            debug = config.debugPoly,
+                            options = {
+                                {
+                                    name = 'kd_farming_' .. itemId,
+                                    icon = "fas fa-hand-paper",
+                                    label = locale('ui.collect_label'):gsub('{item}', collectableConfig.label),
+                                    distance = 2.5,
+                                    onSelect = function()
+                                        if not isItemCollected(itemId, collectableConfig.respawnTime) then
+                                            TriggerEvent("kd-farming:collectItem", {type = collectableType, config = collectableConfig, itemId = itemId})
+                                        else
+                                            lib.notify({
+                                                title = locale('titles.item'),
+                                                description = locale('notifications.item_recently_collected'),
+                                                type = 'error'
+                                            })
+                                        end
+                                    end,
+                                    canInteract = function()
+                                        return not isItemCollected(itemId, collectableConfig.respawnTime)
+                                    end
+                                }
+                            }
+                        })
+                        
+                        targetZones[itemId] = {
+                            boxZone = boxZone,
+                            prop = prop
+                        }
+                    else
+                        local point = lib.points.new({
+                            coords = finalCoords,
+                            distance = 2.0,
+                            onEnter = function()
                                 if not isItemCollected(itemId, collectableConfig.respawnTime) then
-                                    TriggerEvent("kd-farming:collectItem", {type = collectableType, config = collectableConfig, itemId = itemId})
-                                else
-                                    lib.notify({
-                                        title = locale('titles.item'),
-                                        description = locale('notifications.item_recently_collected'),
-                                        type = 'error'
+                                    lib.showTextUI(locale('ui.collect_item'):gsub('{item}', collectableConfig.label), {
+                                        position = "right-center"
                                     })
                                 end
                             end,
-                            canInteract = function()
-                                return not isItemCollected(itemId, collectableConfig.respawnTime)
+                            onExit = function()
+                                lib.hideTextUI()
+                            end,
+                            nearby = function()
+                                if not isItemCollected(itemId, collectableConfig.respawnTime) then
+                                    if IsControlJustReleased(0, 38) then
+                                        TriggerEvent("kd-farming:collectItem", {type = collectableType, config = collectableConfig, itemId = itemId})
+                                    end
+                                else
+                                    lib.hideTextUI()
+                                end
                             end
-                        }
-                    }
-                })
-            else
-                local point = lib.points.new({
-                    coords = finalCoords,
-                    distance = 2.0,
-                    onEnter = function()
-                        if not isItemCollected(itemId, collectableConfig.respawnTime) then
-                            lib.showTextUI(locale('ui.collect_item'):gsub('{item}', collectableConfig.label), {
-                                position = "right-center"
-                            })
-                        else
-                            lib.showTextUI(locale('ui.item_recently_collected_ui'), {
-                                position = "right-center"
-                            })
-                        end
-                    end,
-                    onExit = function()
-                        lib.hideTextUI()
-                    end,
-                    nearby = function()
-                        if IsControlJustReleased(0, 38) then
-                            if not isItemCollected(itemId, collectableConfig.respawnTime) then
-                                TriggerEvent("kd-farming:collectItem", {type = collectableType, config = collectableConfig, itemId = itemId})
-                            else
-                                lib.notify({
-                                    title = locale('titles.item'),
-                                    description = locale('notifications.item_recently_collected'),
-                                    type = 'error'
-                                })
-                            end
-                        end
+                        })
+                        
+                        spawnedProps[itemId].point = point
                     end
-                })
-                spawnedProps[itemId].point = point
+                end
             end
         end
         
         SetModelAsNoLongerNeeded(propHash)
+    end
+end
+
+local function cleanupZoneProps(location)
+    if location.collectable then
+        for collectableType, collectableConfig in pairs(location.collectable) do
+            for i = 1, collectableConfig.maxSpawns do
+                local itemId = location.name .. '_' .. collectableType .. '_' .. i
+                
+                if targetZones[itemId] then
+                    if targetZones[itemId].boxZone then
+                        targetZones[itemId].boxZone:remove()
+                    end
+                    targetZones[itemId] = nil
+                end
+                
+                if spawnedProps[itemId] then
+                    if spawnedProps[itemId].prop and DoesEntityExist(spawnedProps[itemId].prop) then
+                        DeleteEntity(spawnedProps[itemId].prop)
+                    end
+                    if spawnedProps[itemId].point then
+                        spawnedProps[itemId].point:remove()
+                    end
+                    spawnedProps[itemId] = nil
+                end
+            end
+        end
+        spawnedZones[location.name] = nil
     end
 end
 
@@ -249,10 +315,20 @@ local function createLocationZone(location)
             rotation = location.zone.rotation,
             debug = config.debugPoly,
             onEnter = function()
-                
+                if config.spawnOnZoneEnter and location.collectable and not spawnedZones[location.name] then
+                    for collectableType, collectableConfig in pairs(location.collectable) do
+                        spawnCollectableItems(location, collectableType, collectableConfig)
+                    end
+                    spawnedZones[location.name] = true
+                end
             end,
             onExit = function()
-                lib.hideTextUI()
+                if config.useTarget then
+                    lib.hideTextUI()
+                end
+                if config.cleanupOnExit then
+                    cleanupZoneProps(location)
+                end
             end
         })
         zones[#zones + 1] = zone
@@ -263,10 +339,11 @@ local function createLocationZone(location)
             end
         end
         
-        if location.collectable then
+        if not config.spawnOnZoneEnter and location.collectable then
             for collectableType, collectableConfig in pairs(location.collectable) do
                 spawnCollectableItems(location, collectableType, collectableConfig)
             end
+            spawnedZones[location.name] = true
         end
     end
 end
@@ -339,6 +416,10 @@ RegisterNetEvent('kd-farming:collectItem', function(data)
         
          if spawnedProps[itemId] and spawnedProps[itemId].prop then
              SetEntityVisible(spawnedProps[itemId].prop, false, false)
+             
+             if spawnedProps[itemId].point then
+                 lib.hideTextUI()
+             end
          end
          
          SetTimeout(collectableConfig.respawnTime * 1000, function()
@@ -379,6 +460,19 @@ AddEventHandler('onResourceStop', function(resourceName)
                 RemoveBlip(blip)
             end
         end
+
+        if config.useTarget then
+            for itemId, targetZoneData in pairs(targetZones) do
+                if targetZoneData and type(targetZoneData) == 'table' then
+                    if targetZoneData.boxZone then
+                        targetZoneData.boxZone:remove()
+                    end
+                    if targetZoneData.prop and DoesEntityExist(targetZoneData.prop) then
+                        DeleteEntity(targetZoneData.prop)
+                    end
+                end
+            end
+        end
     end
 end)
 
@@ -388,3 +482,4 @@ CreateThread(function()
         createLocationZone(location)
     end
 end)
+

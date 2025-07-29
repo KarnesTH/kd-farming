@@ -1,6 +1,9 @@
 return {
     useTarget = true,
-    debugPoly = false,
+    debugPoly = true,
+    cleanupOnExit = false, -- Set to true if you want props to be removed when leaving the zone
+    spawnOnZoneEnter = true, -- Set to false if you want to spawn everything on resource start
+    minSpawnDistance = 100.0, -- Minimum distance a player must be to spawn props
 
     -- Farming locations
     locations = {
@@ -189,7 +192,37 @@ return {
                     prop = 'prop_veg_crop_03_cab',
                     respawnTime = 45,
                     yield = {min = 1, max = 2},
-                    maxSpawns = 15
+                    maxSpawns = 15,
+                    heightOffset = 0.0
+                }
+            }
+        },
+        -- Coffee Bean
+        {
+            name = 'grapeseed_coffee_bean_farm',
+            coords = vec3(2138.62, 5165.91, 53.59),
+            label = 'Grapeseed Coffee Bean Farm',
+            blip = {
+                label = locale('info.blip_farm_coffee_bean'),
+                sprite = 285,
+                color = 21,
+                scale = 0.8,
+            },
+            zone = {
+                coords = vec3(2138.62, 5165.91, 53.59),
+                size = vec3(50.0, 80.0, 10.0),
+                rotation = 224.08
+            },
+            collectable = {
+                coffee_bean = {
+                    name = 'coffee_bean',
+                    label = locale('info.coffee_bean'),
+                    item = 'coffee_bean',
+                    prop = 'prop_veg_crop_04_leaf',
+                    respawnTime = 45,
+                    yield = {min = 1, max = 2},
+                    maxSpawns = 20,
+                    heightOffset = -1.2
                 }
             }
         },

@@ -4,10 +4,12 @@
         "orange": "Orange",
         "tomato": "Tomate",
         "lettuce": "Salat",
+        "coffee_bean": "Kaffeebohnen",
         "blip_farm_apple": "Obstgarten Apfel",
         "blip_farm_orange": "Obstgarten Orange",
         "blip_farm_tomato": "Obstgarten Tomate",
-        "blip_farm_lettuce": "Salat Farm"
+        "blip_farm_lettuce": "Salat Farm",
+        "blip_farm_coffee_bean": "Kaffeebohnen Farm"
     },
     "notifications": {
         "tree_recently_picked": "Dieser Baum wurde kürzlich gepflückt. Warte noch etwas.",
