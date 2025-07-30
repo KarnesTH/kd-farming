@@ -46,9 +46,9 @@ local function processItem(recipe, recipeIndex)
         canCancel = true,
         disable = {
             car = true,
-            move = true,
+            mouse = false,
             combat = true
-        },
+        }
     }) then
         local success = lib.callback.await('kd-farming:processItem', false, recipeIndex)
         

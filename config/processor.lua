@@ -7,8 +7,8 @@ return {
         model = 'a_m_m_farmer_01', -- Farmer ped model
         blip = {
             label = 'Farming Verarbeiter',
-            sprite = 499, -- Factory icon
-            color = 2,    -- Green color
+            sprite = 467,
+            color = 2,
             scale = 0.8,
         },
         zone = {
@@ -21,7 +21,7 @@ return {
             -- Orange Juice
             {
                 name = 'orange_juice',
-                label = 'Orange Juice herstellen',
+                label = 'Orange Juice',
                 ingredients = {
                     orange = 3
                 },
