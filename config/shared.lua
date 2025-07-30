@@ -226,5 +226,34 @@ return {
                 }
             }
         },
+        -- Potato
+        {
+            name = 'paleto_potato_farm',
+            coords = vec3(264.95, 6651.36, 29.73),
+            label = 'Paleto Potato Farm',
+            blip = {
+                label = locale('info.blip_farm_potato'),
+                sprite = 285,
+                color = 9,
+                scale = 0.8,
+            },
+            zone = {
+                coords = vec3(264.95, 6651.36, 29.73),
+                size = vec3(30.0, 60.0, 10.0),
+                rotation = 93.52
+            },
+            collectable = {
+                potato = {
+                    name = 'potato',
+                    label = locale('info.potato'),
+                    item = 'potato',
+                    prop = 'prop_fib_plant_02',
+                    respawnTime = 45,
+                    yield = {min = 1, max = 2},
+                    maxSpawns = 20,
+                    heightOffset = 0.0
+                }
+            }
+        }
     },
 }

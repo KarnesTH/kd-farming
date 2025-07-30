@@ -33,19 +33,33 @@ return {
                 }
             },
             -- Apple Juice
-            -- {
-            --     name = 'apple_juice',
-            --     label = 'Apple Juice herstellen',
-            --     ingredients = {
-            --         apple = 3
-            --     },
-            --     duration = 10000, -- 10 seconds
-            --     count = 1,
-            --     metadata = {
-            --         label = 'Apple Juice',
-            --         description = 'Frisch gepresster Apfelsaft'
-            --     }
-            -- }
+            {
+                name = 'apple_juice',
+                label = 'Apple Juice',
+                ingredients = {
+                    apple = 3
+                },
+                duration = 10000, -- 10 seconds
+                count = 1,
+                metadata = {
+                    label = 'Apple Juice',
+                    description = 'Frisch gepresster Apfelsaft'
+                }
+            },
+            -- Coffee
+            {
+                name = 'coffee',
+                label = 'Coffee',
+                ingredients = {
+                    coffee_bean = 3
+                },
+                duration = 10000, -- 10 seconds
+                count = 1,
+                metadata = {
+                    label = 'Coffee',
+                    description = 'Frisch gebrannte Kaffeebohnen'
+                }
+            }
         }
     },
     
