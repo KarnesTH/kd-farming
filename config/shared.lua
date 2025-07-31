@@ -194,7 +194,7 @@ return {
                     yield = {min = 1, max = 2},
                     maxSpawns = 15,
                     heightOffset = 0.0,
-                    requiredItem = nil
+                    requiredItem = 'WEAPON_KNIFE'
                 }
             }
         },

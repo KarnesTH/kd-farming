@@ -196,6 +196,10 @@ local function spawnCollectableItems(location, collectableType, collectableConfi
                         point = nil
                     }
                     if config.useTarget then
+                        local requiredItem = collectableConfig.requiredItem
+                        if requiredItem and requiredItem:sub(1, 7) == 'WEAPON_' then
+                            requiredItem = requiredItem:sub(8):lower()
+                        end
                         local boxZone = exports.ox_target:addBoxZone({
                             coords = finalCoords,
                             size = vec3(1.5, 1.5, 2.5),
@@ -205,8 +209,8 @@ local function spawnCollectableItems(location, collectableType, collectableConfi
                                 {
                                     name = 'kd_farming_' .. itemId,
                                     icon = "fas fa-hand-paper",
-                                    label = collectableConfig.requiredItem 
-                                        and locale('ui.collect_label'):gsub('{item}', collectableConfig.label) .. ' (' .. collectableConfig.requiredItem .. ')'
+                                    label = requiredItem 
+                                        and locale('ui.collect_label'):gsub('{item}', collectableConfig.label) .. ' (' .. requiredItem .. ')'
                                         or locale('ui.collect_label'):gsub('{item}', collectableConfig.label),
                                     distance = 2.5,
                                     onSelect = function()
