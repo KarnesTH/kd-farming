@@ -87,11 +87,25 @@ end)
 
 RegisterNetEvent('kd-farming:collectItem', function(data)
     if isProcessing then return end
-    isProcessing = true
     
     local collectableType = data.type
     local collectableConfig = data.config
     local itemId = data.itemId
+    
+    -- Check if player has required item
+    if collectableConfig.requiredItem then
+        local hasItem = exports.ox_inventory:Search('count', collectableConfig.requiredItem)
+        if not hasItem or hasItem <= 0 then
+            lib.notify({
+                title = locale('titles.missing_tool'),
+                description = locale('notifications.missing_tool'):gsub('{tool}', collectableConfig.requiredItem),
+                type = 'error'
+            })
+            return
+        end
+    end
+    
+    isProcessing = true
     
     local playerPed = PlayerPedId()
     TaskStartScenarioInPlace(playerPed, 'WORLD_HUMAN_GARDENER_PLANT', 0, false)
@@ -109,7 +123,7 @@ RegisterNetEvent('kd-farming:collectItem', function(data)
     }) then
         local yield = math.random(collectableConfig.yield.min, collectableConfig.yield.max)
         
-        TriggerServerEvent('kd-farming:giveFruit', collectableConfig.item, yield)
+        TriggerServerEvent('kd-farming:giveFruit', collectableConfig.item, yield, collectableConfig.requiredItem)
         
         farming.markItemAsCollected(itemId)
         

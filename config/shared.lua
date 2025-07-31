@@ -193,7 +193,8 @@ return {
                     respawnTime = 45,
                     yield = {min = 1, max = 2},
                     maxSpawns = 15,
-                    heightOffset = 0.0
+                    heightOffset = 0.0,
+                    requiredItem = nil
                 }
             }
         },
@@ -222,7 +223,8 @@ return {
                     respawnTime = 45,
                     yield = {min = 1, max = 2},
                     maxSpawns = 20,
-                    heightOffset = -1.2
+                    heightOffset = -1.2,
+                    requiredItem = nil
                 }
             }
         },
@@ -251,7 +253,8 @@ return {
                     respawnTime = 45,
                     yield = {min = 1, max = 2},
                     maxSpawns = 20,
-                    heightOffset = 0.0
+                    heightOffset = 0.0,
+                    requiredItem = 'shovel'
                 }
             }
         }

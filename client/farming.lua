@@ -195,7 +195,6 @@ local function spawnCollectableItems(location, collectableType, collectableConfi
                         coords = finalCoords,
                         point = nil
                     }
-                    
                     if config.useTarget then
                         local boxZone = exports.ox_target:addBoxZone({
                             coords = finalCoords,
@@ -206,7 +205,9 @@ local function spawnCollectableItems(location, collectableType, collectableConfi
                                 {
                                     name = 'kd_farming_' .. itemId,
                                     icon = "fas fa-hand-paper",
-                                    label = locale('ui.collect_label'):gsub('{item}', collectableConfig.label),
+                                    label = collectableConfig.requiredItem 
+                                        and locale('ui.collect_label'):gsub('{item}', collectableConfig.label) .. ' (' .. collectableConfig.requiredItem .. ')'
+                                        or locale('ui.collect_label'):gsub('{item}', collectableConfig.label),
                                     distance = 2.5,
                                     onSelect = function()
                                         if not isItemCollected(itemId, collectableConfig.respawnTime) then
@@ -219,9 +220,6 @@ local function spawnCollectableItems(location, collectableType, collectableConfi
                                             })
                                         end
                                     end,
-                                    canInteract = function()
-                                        return not isItemCollected(itemId, collectableConfig.respawnTime)
-                                    end
                                 }
                             }
                         })
@@ -236,7 +234,10 @@ local function spawnCollectableItems(location, collectableType, collectableConfi
                             distance = 2.0,
                             onEnter = function()
                                 if not isItemCollected(itemId, collectableConfig.respawnTime) then
-                                    lib.showTextUI(locale('ui.collect_item'):gsub('{item}', collectableConfig.label), {
+                                    local text = collectableConfig.requiredItem 
+                                        and locale('ui.collect_item'):gsub('{item}', collectableConfig.label) .. ' (' .. collectableConfig.requiredItem .. ')'
+                                        or locale('ui.collect_item'):gsub('{item}', collectableConfig.label)
+                                    lib.showTextUI(text, {
                                         position = "right-center"
                                     })
                                 end
@@ -247,6 +248,18 @@ local function spawnCollectableItems(location, collectableType, collectableConfi
                             nearby = function()
                                 if not isItemCollected(itemId, collectableConfig.respawnTime) then
                                     if IsControlJustReleased(0, 38) then
+                                        -- Check if player has required item before triggering event
+                                        if collectableConfig.requiredItem then
+                                            local hasItem = exports.ox_inventory:Search('count', collectableConfig.requiredItem)
+                                            if not hasItem or hasItem <= 0 then
+                                                lib.notify({
+                                                    title = locale('titles.missing_tool'),
+                                                    description = locale('notifications.missing_tool'):gsub('{tool}', collectableConfig.requiredItem),
+                                                    type = 'error'
+                                                })
+                                                return
+                                            end
+                                        end
                                         TriggerEvent("kd-farming:collectItem", {type = collectableType, config = collectableConfig, itemId = itemId})
                                     end
                                 else

@@ -1,0 +1,61 @@
+{
+    "info": {
+        "apple": "Apple",
+        "orange": "Orange",
+        "tomato": "Tomato",
+        "lettuce": "Lettuce",
+        "coffee_bean": "Coffee Bean",
+        "potato": "Potato",
+        "blip_farm_apple": "Apple Orchard",
+        "blip_farm_orange": "Orange Orchard",
+        "blip_farm_tomato": "Tomato Orchard",
+        "blip_farm_lettuce": "Lettuce Farm",
+        "blip_farm_coffee_bean": "Coffee Bean Farm",
+        "blip_farm_potato": "Potato Farm"
+    },
+    "notifications": {
+        "tree_recently_picked": "This tree was recently picked. Wait a bit longer.",
+        "item_recently_collected": "This item was recently collected. Wait a bit longer.",
+        "successfully_picked": "You picked {yield}x {item}!",
+        "successfully_collected": "You collected {yield}x {item}!",
+        "cancelled": "Picking cancelled.",
+        "collection_cancelled": "Collection cancelled.",
+        "tree_ready": "The tree is ready to be picked again.",
+        "item_ready": "The item is ready to be collected again.",
+        "inventory_full": "You can't carry any more!",
+        "missing_tool": "You need a {tool} to harvest this!"
+    },
+    "ui": {
+        "pick_tree": "[E] Pick {item}",
+        "collect_item": "[E] Harvest {item}",
+        "tree_recently_picked_ui": "Tree recently picked",
+        "item_recently_collected_ui": "Item recently collected",
+        "pick_label": "Picking {item}",
+        "collect_label": "Harvesting {item}",
+        "processor_label": "[E] Talk to processor"
+    },
+    "titles": {
+        "tree": "Tree",
+        "item": "Item",
+        "successfully_picked": "Successfully picked",
+        "successfully_collected": "Successfully collected",
+        "cancelled": "Cancelled",
+        "inventory_full": "Inventory full",
+        "missing_tool": "Missing tool",
+        "processing_success": "Processing successful",
+        "processing_error": "Processing failed",
+        "processing_cancelled": "Processing cancelled"
+    },
+    "processor": {
+        "menu_title": "Farming Processor",
+        "cancel": "Cancel",
+        "cancel_description": "Close menu",
+        "processing_label": "Processing {item}",
+        "too_far": "You are too far from the processor",
+        "not_enough_ingredients": "You don't have enough ingredients",
+        "processing_failed": "Processing failed",
+        "processing_cancelled": "Processing cancelled",
+        "processing_success": "You crafted {item}",
+        "processing": "Processor"
+    }
+}

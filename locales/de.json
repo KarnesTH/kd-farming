@@ -22,7 +22,8 @@
         "collection_cancelled": "Ernten abgebrochen.",
         "tree_ready": "Der Baum ist wieder bereit zum Pflücken.",
         "item_ready": "Der Salat ist wieder bereit zum Ernten.",
-        "inventory_full": "Du kannst nicht mehr tragen!"
+        "inventory_full": "Du kannst nicht mehr tragen!",
+        "missing_tool": "Du benötigst ein {tool} um dies zu ernten!"
     },
     "ui": {
         "pick_tree": "[E] Pflücke {item}",
@@ -40,6 +41,7 @@
         "successfully_collected": "Erfolgreich geerntet",
         "cancelled": "Abgebrochen",
         "inventory_full": "Inventar voll",
+        "missing_tool": "Werkzeug fehlt",
         "processing_success": "Verarbeitung erfolgreich",
         "processing_error": "Verarbeitung fehlgeschlagen",
         "processing_cancelled": "Verarbeitung abgebrochen"
