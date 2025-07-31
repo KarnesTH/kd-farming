@@ -2,7 +2,7 @@ local config = require 'config.shared'
 
 -- Check if player has required item
 local function hasItem(source, itemName)
-    if not itemName then return true end -- No required item means always allowed
+    if not itemName then return true end
     
     local hasItem = exports.ox_inventory:GetItem(source, itemName, nil, true)
     return hasItem > 0
@@ -12,7 +12,6 @@ end
 RegisterNetEvent('kd-farming:giveFruit', function(itemName, amount, requiredItem)
     local source = source
     
-    -- Check if player has required item
     if not hasItem(source, requiredItem) then
         TriggerClientEvent('ox_lib:notify', source, {
             title = locale('titles.missing_tool'),

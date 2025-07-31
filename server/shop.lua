@@ -20,7 +20,6 @@ local function registerShop()
         })
     end
     
-    -- Register shop with ox_inventory
     exports.ox_inventory:RegisterShop('farming_shop', shopData)
 end
 

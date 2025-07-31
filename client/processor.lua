@@ -52,12 +52,9 @@ local function processItem(recipe, recipeIndex)
     
     local batchCount = 1 -- Default to 1 batch
     
-    -- Only show input dialog if multiple processing is allowed
     if config.settings.allowMultipleProcessing then
-        -- Calculate maximum possible batches
         local maxBatches = calculateMaxBatches(recipe)
         
-        -- Show input dialog for batch selection
         local input = lib.inputDialog(locale('processor.batch_selection_title'), {
             {
                 type = 'number',
@@ -71,7 +68,7 @@ local function processItem(recipe, recipeIndex)
         })
         
         if not input or not input[1] then
-            return -- User cancelled
+            return
         end
         
         batchCount = input[1]
