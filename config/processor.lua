@@ -69,7 +69,7 @@ return {
         debugPoly = false,
         processingAnimation = 'WORLD_HUMAN_CLIPBOARD', -- Animation during processing
         showProgressBar = true,
-        allowMultipleProcessing = false, -- Can process multiple items at once
+        allowMultipleProcessing = true, -- Can process multiple items at once
         pedHeading = 48.74, -- Direction ped faces
         pedScenario = 'WORLD_HUMAN_CLIPBOARD', -- Ped idle animation - holds clipboard
         interactionDistance = 2.5,

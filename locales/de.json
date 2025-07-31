@@ -56,6 +56,10 @@
         "processing_failed": "Verarbeitung fehlgeschlagen",
         "processing_cancelled": "Verarbeitung abgebrochen",
         "processing_success": "Du hast {item} hergestellt",
-        "processing": "Verarbeiter"
+        "processing": "Verarbeiter",
+        "batch_selection_title": "Verarbeitungsmenge wählen",
+        "batch_count_label": "Anzahl Durchläufe",
+        "batch_count_description": "Maximal {max} Durchläufe möglich für {item}",
+        "invalid_batch_count": "Ungültige Anzahl Durchläufe"
     }
 }

@@ -56,6 +56,10 @@
         "processing_failed": "Processing failed",
         "processing_cancelled": "Processing cancelled",
         "processing_success": "You crafted {item}",
-        "processing": "Processor"
+        "processing": "Processor",
+        "batch_selection_title": "Select Processing Amount",
+        "batch_count_label": "Number of Batches",
+        "batch_count_description": "Maximum {max} batches possible for {item}",
+        "invalid_batch_count": "Invalid batch count"
     }
 }

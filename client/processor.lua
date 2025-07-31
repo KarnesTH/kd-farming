@@ -11,7 +11,20 @@ local function getIngredientsText(ingredients)
     return table.concat(text, ', ')
 end
 
--- Process item function
+-- Calculate maximum possible batches based on available ingredients
+local function calculateMaxBatches(recipe)
+    local maxBatches = math.huge
+    
+    for item, amount in pairs(recipe.ingredients) do
+        local itemCount = lib.callback.await('kd-farming:getItemCount', false, item)
+        local possibleBatches = math.floor(itemCount / amount)
+        maxBatches = math.min(maxBatches, possibleBatches)
+    end
+    
+    return math.max(1, maxBatches)
+end
+
+-- Process item function with multiple batches support
 local function processItem(recipe, recipeIndex)
     local playerPed = PlayerPedId()
     local playerCoords = GetEntityCoords(playerPed)
@@ -37,11 +50,47 @@ local function processItem(recipe, recipeIndex)
         return
     end
     
+    local batchCount = 1 -- Default to 1 batch
+    
+    -- Only show input dialog if multiple processing is allowed
+    if config.settings.allowMultipleProcessing then
+        -- Calculate maximum possible batches
+        local maxBatches = calculateMaxBatches(recipe)
+        
+        -- Show input dialog for batch selection
+        local input = lib.inputDialog(locale('processor.batch_selection_title'), {
+            {
+                type = 'number',
+                label = locale('processor.batch_count_label'),
+                description = locale('processor.batch_count_description'):gsub('{max}', maxBatches):gsub('{item}', recipe.label),
+                default = maxBatches,
+                min = 1,
+                max = maxBatches,
+                required = true
+            }
+        })
+        
+        if not input or not input[1] then
+            return -- User cancelled
+        end
+        
+        batchCount = input[1]
+        
+        if batchCount < 1 or batchCount > maxBatches then
+            lib.notify({
+                title = locale('titles.processing_error'),
+                description = locale('processor.invalid_batch_count'),
+                type = 'error'
+            })
+            return
+        end
+    end
+    
     TaskStartScenarioInPlace(playerPed, config.settings.processingAnimation, 0, false)
     
     if lib.progressCircle({
-        duration = recipe.duration,
-        label = locale('processor.processing_label'):gsub('{item}', recipe.label),
+        duration = recipe.duration * batchCount,
+        label = locale('processor.processing_label'):gsub('{item}', recipe.label) .. ' (x' .. batchCount .. ')',
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -50,12 +99,12 @@ local function processItem(recipe, recipeIndex)
             combat = true
         }
     }) then
-        local success = lib.callback.await('kd-farming:processItem', false, recipeIndex)
+        local success = lib.callback.await('kd-farming:processItem', false, recipeIndex, batchCount)
         
         if success then
             lib.notify({
                 title = locale('titles.processing_success'),
-                description = locale('processor.processing_success'):gsub('{item}', recipe.label),
+                description = locale('processor.processing_success'):gsub('{item}', recipe.label) .. ' (x' .. batchCount .. ')',
                 type = 'success'
             })
         else
