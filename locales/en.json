@@ -32,7 +32,8 @@
         "item_recently_collected_ui": "Item recently collected",
         "pick_label": "Picking {item}",
         "collect_label": "Harvesting {item}",
-        "processor_label": "[E] Talk to processor"
+        "processor_label": "[E] Talk to processor",
+        "shop_label": "[E] Talk to merchant"
     },
     "titles": {
         "tree": "Tree",
@@ -44,7 +45,10 @@
         "missing_tool": "Missing tool",
         "processing_success": "Processing successful",
         "processing_error": "Processing failed",
-        "processing_cancelled": "Processing cancelled"
+        "processing_cancelled": "Processing cancelled",
+        "shop_success": "Purchase successful",
+        "shop_error": "Purchase failed",
+        "shop_cancelled": "Purchase cancelled"
     },
     "processor": {
         "menu_title": "Farming Processor",
@@ -61,5 +65,8 @@
         "batch_count_label": "Number of Batches",
         "batch_count_description": "Maximum {max} batches possible for {item}",
         "invalid_batch_count": "Invalid batch count"
+    },
+    "shop": {
+        "shop_label": "Talk to merchant"
     }
 }

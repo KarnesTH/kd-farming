@@ -1,6 +1,7 @@
 local config = require 'config.shared'
 local farming = require 'client.farming'
 local processor = require 'client.processor'
+local shop = require 'client.shop'
 
 local blips = {}
 local zones = {}
@@ -36,6 +37,14 @@ local function initializeProcessor()
     local processorBlip = processor.initializeProcessor()
     if processorBlip then
         blips[#blips + 1] = processorBlip
+    end
+end
+
+-- Initialize shop
+local function initializeShop()
+    local shopBlip = shop.initializeShop()
+    if shopBlip then
+        blips[#blips + 1] = shopBlip
     end
 end
 
@@ -168,6 +177,7 @@ AddEventHandler('onResourceStop', function(resourceName)
         end
         
         processor.cleanupProcessor()
+        shop.cleanupShop()
     end
 end)
 
@@ -175,5 +185,6 @@ end)
 CreateThread(function()
     initializeFarming()
     initializeProcessor()
+    initializeShop()
 end)
 

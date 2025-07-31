@@ -32,7 +32,8 @@
         "item_recently_collected_ui": "Salat kürzlich geerntet",
         "pick_label": "Pflücke {item}",
         "collect_label": "Ernte {item}",
-        "processor_label": "[E] Mit Verarbeiter sprechen"
+        "processor_label": "[E] Mit Verarbeiter sprechen",
+        "shop_label": "[E] Mit Händler sprechen"
     },
     "titles": {
         "tree": "Baum",
@@ -44,7 +45,10 @@
         "missing_tool": "Werkzeug fehlt",
         "processing_success": "Verarbeitung erfolgreich",
         "processing_error": "Verarbeitung fehlgeschlagen",
-        "processing_cancelled": "Verarbeitung abgebrochen"
+        "processing_cancelled": "Verarbeitung abgebrochen",
+        "shop_success": "Kauf erfolgreich",
+        "shop_error": "Kauf fehlgeschlagen",
+        "shop_cancelled": "Kauf abgebrochen"
     },
     "processor": {
         "menu_title": "Farming Verarbeiter",
@@ -61,5 +65,8 @@
         "batch_count_label": "Anzahl Durchläufe",
         "batch_count_description": "Maximal {max} Durchläufe möglich für {item}",
         "invalid_batch_count": "Ungültige Anzahl Durchläufe"
+    },
+    "shop": {
+        "shop_label": "Mit Händler sprechen"
     }
 }

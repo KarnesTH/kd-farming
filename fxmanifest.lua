@@ -11,17 +11,20 @@ shared_scripts {
     '@ox_lib/init.lua',
     'config/shared.lua',
     'config/processor.lua',
+    'config/shop.lua',
 }
 
 client_scripts {
     '@qbx_core/modules/playerdata.lua',
     'client/farming.lua',
     'client/processor.lua',
+    'client/shop.lua',
     'client/main.lua',
 }
 
 server_scripts {
     'server/processor.lua',
+    'server/shop.lua',
     'server/main.lua',
 }
 
