@@ -257,6 +257,66 @@ return {
                     requiredItem = 'shovel'
                 }
             }
+        },
+        -- Onion
+        {
+            name = 'paleto_onion_farm',
+            coords = vec3(263.8, 6464.0, 31.15),
+            label = 'Paleto Onion Farm',
+            blip = {
+                label = locale('info.blip_farm_onion'),
+                sprite = 285,
+                color = 17,
+                scale = 0.8,
+            },
+            zone = {
+                coords = vec3(263.8, 6464.0, 31.15),
+                size = vec3(30.0, 30.0, 10.0),
+                rotation = 92.17
+            },
+            collectable = {
+                onion = {
+                    name = 'onion',
+                    label = locale('info.onion'),
+                    item = 'onion',
+                    prop = 'prop_plant_cane_01b',
+                    respawnTime = 45,
+                    yield = {min = 1, max = 2},
+                    maxSpawns = 10,
+                    heightOffset = 0.0,
+                    requiredItem = 'hoe'
+                }
+            }
+        },
+        -- Cucumber	
+        {
+            name = 'paleto_cucumber_farm',
+            coords = vec3(2044.18, 4942.74, 41.09),
+            label = 'Paleto Cucumber Farm',
+            blip = {
+                label = locale('info.blip_farm_cucumber'),
+                sprite = 285,
+                color = 24,
+                scale = 0.8,
+            },
+            zone = {
+                coords = vec3(2044.18, 4942.74, 41.09),
+                size = vec3(30.0, 30.0, 10.0),
+                rotation = 223.11
+            },
+            collectable = {
+                cucumber = {
+                    name = 'cucumber',
+                    label = locale('info.cucumber'),
+                    item = 'cucumber',
+                    prop = 'prop_am_box_wood_01',
+                    respawnTime = 45,
+                    yield = {min = 1, max = 2},
+                    maxSpawns = 10,
+                    heightOffset = 1.0,
+                    requiredItem = nil
+                }
+            }
         }
     },
 }

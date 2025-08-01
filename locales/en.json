@@ -6,12 +6,16 @@
         "lettuce": "Lettuce",
         "coffee_bean": "Coffee Bean",
         "potato": "Potato",
+        "onion": "Onion",
+        "cucumber": "Cucumber",
         "blip_farm_apple": "Apple Orchard",
         "blip_farm_orange": "Orange Orchard",
         "blip_farm_tomato": "Tomato Orchard",
         "blip_farm_lettuce": "Lettuce Farm",
         "blip_farm_coffee_bean": "Coffee Bean Farm",
-        "blip_farm_potato": "Potato Farm"
+        "blip_farm_potato": "Potato Farm",
+        "blip_farm_onion": "Onion Farm",
+        "blip_farm_cucumber": "Cucumber Farm"
     },
     "notifications": {
         "tree_recently_picked": "This tree was recently picked. Wait a bit longer.",

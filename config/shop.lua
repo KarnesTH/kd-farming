@@ -28,6 +28,10 @@ return {
         shovel = {
             name = 'shovel',
             price = 150
+        },
+        hoe = {
+            name = 'hoe',
+            price = 150
         }
     },
     
